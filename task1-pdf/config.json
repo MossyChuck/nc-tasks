@@ -1,0 +1,10 @@
+{
+  "port": 4321,
+  "database": {
+    "host": "localhost",
+    "user": "root",
+    "password": "415263",
+    "database": "nc-task1-pdf"
+  },
+  "pdf": "out.pdf"
+}
