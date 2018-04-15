@@ -5,5 +5,12 @@
     "tags": [
       "#note"
     ]
+  },
+  {
+    "id": 2,
+    "text": "Hi, #second #note",
+    "tags": [
+      "#second","#note"
+    ]
   }
 ]

@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { NotesService } from "../notes.service";
-import { Note } from "../notes-model/Note";
+import {Component, OnInit} from '@angular/core';
+import {NotesService} from "../notes.service";
+import {Note} from "../notes-model/Note";
 
 
 @Component({
@@ -10,15 +10,19 @@ import { Note } from "../notes-model/Note";
 })
 export class NotesListComponent implements OnInit {
 
+  notes: Note[] = [];
 
+  constructor(private notesService: NotesService) {
+  }
 
-  constructor(private notesService: NotesService) { }
+  getNotes() {
+    this.notesService.getNotes().subscribe((notes) => {
+      this.notes = notes;
+    })
+  }
 
   ngOnInit() {
-    this.notesService.getNotes().subscribe((notes)=>{
-      notes[0].text = 'Hi, updated #note';
-      this.notesService.updateNote(notes[0]).subscribe();
-    });
+   this.getNotes();
   }
 
 }

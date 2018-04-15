@@ -1,0 +1,16 @@
+<div class="note">
+  <button class="button" (click)="edit()" *ngIf="!isEditing">Edit</button>
+  <button class="button" (click)="save()" *ngIf="isEditing">Save</button>
+  <button class="button" (click)="cancel()" *ngIf="isEditing">Cancel</button>
+  <div class="text">
+    {{note.text}}
+  </div>
+  <div class="tags">
+    <div class="tag" *ngFor="let tag of note.tags">
+       {{tag}}
+    </div>
+  </div>
+  <div class="edit-field" *ngIf="isEditing">
+    <textarea class="edit-textarea" [(ngModel)]="note.text" rows="5"></textarea>
+  </div>
+</div>
