@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {NotesService} from "../notes.service";
-import {Note} from "../notes-model/Note";
+import { Component, OnInit } from '@angular/core';
+import { NotesService } from "../notes.service";
+import { Note } from "../notes-model/Note";
 
 
 @Component({
@@ -19,74 +19,74 @@ export class NotesListComponent implements OnInit {
   constructor(private notesService: NotesService) {
   }
 
-  getNotes() {
-    this.notesService.getNotes().subscribe((notes) => {
+  getNotes(): void {
+    this.notesService.getNotes().subscribe((notes: Note[]) => {
       this.notes = notes;
       this.filter();
     })
   }
 
-  checkTags(){
-    let startIndex = 0;
+  checkTags(): void {
+    let startIndex: number = 0;
     this.newNote.tags = [];
-    while(1){
-      let start = this.newNote.text.indexOf('#', startIndex);
-      if(start === -1){
+    while (1) {
+      let start: number = this.newNote.text.indexOf('#', startIndex);
+      if (start === -1) {
         return;
       }
-      let end = this.newNote.text.indexOf(' ',start) === -1? this.newNote.text.length: this.newNote.text.indexOf(' ',start);
-      let tag = this.newNote.text.substring(start,end);
+      let end: number = this.newNote.text.indexOf(' ', start) === -1 ? this.newNote.text.length : this.newNote.text.indexOf(' ', start);
+      let tag: string = this.newNote.text.substring(start, end);
       this.newNote.tags.push(tag);
       startIndex = end;
     }
   }
 
-  filter(){
+  filter(): void {
     this.filteredNotes = [];
-    this.filteredNotes = this.notes.filter((note)=>{
+    this.filteredNotes = this.notes.filter((note) => {
       return this.checkFilter(note);
     });
   }
 
-  checkFilter(note){
-    if(this.tagFilter.length === 0){
+  checkFilter(note): boolean {
+    if (this.tagFilter.length === 0) {
       return true;
     }
-    let isContainTag = false;
+    let isContainTag: boolean = false;
     note.tags.forEach((tag) => {
-      if(tag.toLowerCase().indexOf(this.tagFilter.toLowerCase()) !== -1){
+      if (tag.toLowerCase().indexOf(this.tagFilter.toLowerCase()) !== -1) {
         isContainTag = true;
       }
     });
     return isContainTag;
   }
 
-  startAdding(){
+  startAdding(): void {
     this.isAdding = !this.isAdding;
   }
 
-  save(){
-    if(!this.newNote.text || this.newNote.text.length === 0){
+  save(): void {
+    if (!this.newNote.text || this.newNote.text.length === 0) {
       this.cancel();
       return;
     }
-    if(!this.newNote.tags){
+    if (!this.newNote.tags) {
       this.newNote.tags = [];
     }
-    this.notesService.addNote(this.newNote.text,this.newNote.tags).subscribe((note)=>{
+    this.notesService.addNote(this.newNote.text, this.newNote.tags).subscribe((note) => {
       this.notes.push(note);
       this.filter();
       this.cancel();
     });
   }
 
-  cancel(){
+  cancel(): void {
     this.isAdding = !this.isAdding;
     this.newNote = new Note();
   }
 
   ngOnInit() {
-   this.getNotes();
+    this.getNotes();
   }
 
 }

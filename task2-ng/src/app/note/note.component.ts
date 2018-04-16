@@ -18,49 +18,49 @@ export class NoteComponent implements OnInit {
   isEditing: boolean = false;
   tempNote: Note;
 
-  edit(){
+  edit(): void {
     this.isEditing = !this.isEditing;
     this.tempNote = JSON.parse(JSON.stringify(this.note));
     this.highligthTags();
   }
 
-  highligthTags(){
-    let startIndex = 0;
-    this.noteHtmlText = this.note.text+' ';
+  highligthTags(): void {
+    let startIndex: number = 0;
+    this.noteHtmlText = this.note.text + ' ';
     this.note.tags = [];
-    while(1){
-      let start = this.noteHtmlText.indexOf('#', startIndex);
-      if(start === -1){
+    while (1) {
+      let start: number = this.noteHtmlText.indexOf('#', startIndex);
+      if (start === -1) {
         return;
       }
-      let end = this.noteHtmlText.indexOf(' ',start) === -1? this.noteHtmlText.length: this.noteHtmlText.indexOf(' ',start);
-      let tag = this.noteHtmlText.substring(start,end);
+      let end: number = this.noteHtmlText.indexOf(' ', start) === -1 ? this.noteHtmlText.length : this.noteHtmlText.indexOf(' ', start);
+      let tag: string = this.noteHtmlText.substring(start, end);
       this.note.tags.push(tag);
-      tag+=' ';
-      this.noteHtmlText = this.noteHtmlText.replace(tag,`<span class="highlited" style="color: red">${tag.replace(' ','')}</span> `);
+      tag += ' ';
+      this.noteHtmlText = this.noteHtmlText.replace(tag, `<span class="highlited" style="color: red">${tag.replace(' ', '')}</span> `);
       startIndex = this.noteHtmlText.lastIndexOf('</span>');
     }
   }
 
-  delete(){
-    this.notesService.deleteNoteById(this.note.id).subscribe(()=>{
+  delete(): void {
+    this.notesService.deleteNoteById(this.note.id).subscribe(() => {
       this.fetch.emit();
     })
   }
 
-  save(){
+  save(): void {
     this.isEditing = !this.isEditing;
-    this.notesService.updateNote(this.note).subscribe(()=>{
+    this.notesService.updateNote(this.note).subscribe(() => {
       this.fetch.emit();
     });
   }
 
-  cancel(){
+  cancel(): void {
     this.note = this.tempNote;
     this.isEditing = !this.isEditing;
   }
 
-  constructor(private notesService: NotesService ) { }
+  constructor(private notesService: NotesService) { }
 
   ngOnInit() {
   }
