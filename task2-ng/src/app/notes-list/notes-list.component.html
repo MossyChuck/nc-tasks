@@ -14,5 +14,5 @@
         </div>
       </div>
   </div>
-  <app-note *ngFor="let note of filteredNotes.reverse()" [note]="note" (deleted)="getNotes()"></app-note>
+  <app-note *ngFor="let note of filteredNotes.reverse()" [note]="note" (fetch)="getNotes()"></app-note>
 </div>

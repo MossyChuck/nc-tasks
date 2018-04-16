@@ -10,7 +10,7 @@ import { NotesService } from '../notes.service';
 export class NoteComponent implements OnInit {
 
   @Output()
-  deleted = new EventEmitter();
+  fetch = new EventEmitter();
 
   @Input()
   note: Note;
@@ -22,7 +22,6 @@ export class NoteComponent implements OnInit {
     this.isEditing = !this.isEditing;
     this.tempNote = JSON.parse(JSON.stringify(this.note));
     this.highligthTags();
-    console.log(`Note ${this.note.id} isEditing is ${this.isEditing}`);
   }
 
   highligthTags(){
@@ -45,16 +44,15 @@ export class NoteComponent implements OnInit {
 
   delete(){
     this.notesService.deleteNoteById(this.note.id).subscribe(()=>{
-      console.log('deleted');
-      this.deleted.emit();
+      this.fetch.emit();
     })
   }
 
   save(){
     this.isEditing = !this.isEditing;
     this.notesService.updateNote(this.note).subscribe(()=>{
-      console.log('updated');
-    })
+      this.fetch.emit();
+    });
   }
 
   cancel(){
@@ -65,7 +63,6 @@ export class NoteComponent implements OnInit {
   constructor(private notesService: NotesService ) { }
 
   ngOnInit() {
-    console.log(this);
   }
 
 }

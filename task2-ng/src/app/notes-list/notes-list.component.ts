@@ -37,7 +37,6 @@ export class NotesListComponent implements OnInit {
       let end = this.newNote.text.indexOf(' ',start) === -1? this.newNote.text.length: this.newNote.text.indexOf(' ',start);
       let tag = this.newNote.text.substring(start,end);
       this.newNote.tags.push(tag);
-      console.log(tag);
       startIndex = end;
     }
   }
@@ -76,6 +75,7 @@ export class NotesListComponent implements OnInit {
     }
     this.notesService.addNote(this.newNote.text,this.newNote.tags).subscribe((note)=>{
       this.notes.push(note);
+      this.filter();
       this.cancel();
     });
   }
