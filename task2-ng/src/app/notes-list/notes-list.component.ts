@@ -13,6 +13,7 @@ export class NotesListComponent implements OnInit {
   notes: Note[] = [];
   isAdding: boolean = false;
   newNote: Note = new Note();
+  filteredNotes: Note[] = [];
   tagFilter: string = '';
 
   constructor(private notesService: NotesService) {
@@ -21,6 +22,7 @@ export class NotesListComponent implements OnInit {
   getNotes() {
     this.notesService.getNotes().subscribe((notes) => {
       this.notes = notes;
+      this.filter();
     })
   }
 
@@ -40,11 +42,38 @@ export class NotesListComponent implements OnInit {
     }
   }
 
+  filter(){
+    this.filteredNotes = [];
+    this.filteredNotes = this.notes.filter((note)=>{
+      return this.checkFilter(note);
+    });
+  }
+
+  checkFilter(note){
+    if(this.tagFilter.length === 0){
+      return true;
+    }
+    let isContainTag = false;
+    note.tags.forEach((tag) => {
+      if(tag.toLowerCase().indexOf(this.tagFilter.toLowerCase()) !== -1){
+        isContainTag = true;
+      }
+    });
+    return isContainTag;
+  }
+
   startAdding(){
     this.isAdding = !this.isAdding;
   }
 
   save(){
+    if(!this.newNote.text || this.newNote.text.length === 0){
+      this.cancel();
+      return;
+    }
+    if(!this.newNote.tags){
+      this.newNote.tags = [];
+    }
     this.notesService.addNote(this.newNote.text,this.newNote.tags).subscribe((note)=>{
       this.notes.push(note);
       this.cancel();

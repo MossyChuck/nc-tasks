@@ -14,12 +14,5 @@
       "#second",
       "#note"
     ]
-  },
-  {
-    "id": 3,
-    "text": "Newly added #note",
-    "tags": [
-      "#note"
-    ]
   }
 ]

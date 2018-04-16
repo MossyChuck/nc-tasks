@@ -1,9 +1,12 @@
 <div class="container">
   <div class="add-field">
       <button class="button" (click)="startAdding()" *ngIf="!isAdding">Add note</button>
-      <input class="filter" [(ngModel)]="tagFilter" (keyup)="filter()">
       <button class="button" (click)="save()" *ngIf="isAdding">Save</button>
       <button class="button" (click)="cancel()" *ngIf="isAdding">Cancel</button>
+      <div class="filter">
+          <label for="filter-input">Filter</label>
+          <input id="filter-input" [(ngModel)]="tagFilter" (keyup)="filter()">
+        </div>
       <textarea class="add-textarea" [(ngModel)]="newNote.text" rows="5" (keyup)="checkTags()" *ngIf="isAdding"></textarea>
       <div class="tags">
         <div class="tag" *ngFor="let tag of newNote.tags">
@@ -11,5 +14,5 @@
         </div>
       </div>
   </div>
-  <app-note *ngFor="let note of notes.reverse()" [note]="note" (deleted)="getNotes()"></app-note>
+  <app-note *ngFor="let note of filteredNotes.reverse()" [note]="note" (deleted)="getNotes()"></app-note>
 </div>

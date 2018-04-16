@@ -38,7 +38,6 @@ export class NoteComponent implements OnInit {
       let tag = this.noteHtmlText.substring(start,end);
       this.note.tags.push(tag);
       tag+=' ';
-      console.log(tag);
       this.noteHtmlText = this.noteHtmlText.replace(tag,`<span class="highlited" style="color: red">${tag.replace(' ','')}</span> `);
       startIndex = this.noteHtmlText.lastIndexOf('</span>');
     }
