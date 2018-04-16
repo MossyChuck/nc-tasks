@@ -1,5 +1,6 @@
 <div class="note">
   <button class="button" (click)="edit()" *ngIf="!isEditing">Edit</button>
+  <button class="button" (click)="delete()" *ngIf="!isEditing">Delete</button>
   <button class="button" (click)="save()" *ngIf="isEditing">Save</button>
   <button class="button" (click)="cancel()" *ngIf="isEditing">Cancel</button>
   <!-- <div class="text" [innerHTML]="noteHtmlText"> -->

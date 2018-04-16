@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Note } from '../notes-model/Note';
 import { NotesService } from '../notes.service';
 
@@ -8,6 +8,9 @@ import { NotesService } from '../notes.service';
   styleUrls: ['./note.component.sass']
 })
 export class NoteComponent implements OnInit {
+
+  @Output()
+  deleted = new EventEmitter();
 
   @Input()
   note: Note;
@@ -41,6 +44,13 @@ export class NoteComponent implements OnInit {
     }
   }
 
+  delete(){
+    this.notesService.deleteNoteById(this.note.id).subscribe(()=>{
+      console.log('deleted');
+      this.deleted.emit();
+    })
+  }
+
   save(){
     this.isEditing = !this.isEditing;
     this.notesService.updateNote(this.note).subscribe(()=>{
@@ -56,6 +66,7 @@ export class NoteComponent implements OnInit {
   constructor(private notesService: NotesService ) { }
 
   ngOnInit() {
+    console.log(this);
   }
 
 }
