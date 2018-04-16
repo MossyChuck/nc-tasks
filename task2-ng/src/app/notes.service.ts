@@ -7,24 +7,26 @@ import { Note } from './notes-model/Note';
 @Injectable()
 export class NotesService {
 
+  notesUrl: string = 'http://localhost:3000/notes';
+
   getNotes(): Observable<Note[]> {
-    return this.http.get<Note[]>('http://localhost:3000/notes');
+    return this.http.get<Note[]>(this.notesUrl);
   }
 
   getNoteById(id: number): Observable<Note> {
-    return this.http.get<Note>(`http://localhost:3000/notes/${id}`);
+    return this.http.get<Note>(`${this.notesUrl}/${id}`);
   }
 
   updateNote(note: Note): Observable<Note> {
-    return this.http.put<Note>(`http://localhost:3000/notes/${note.id}`, { text: note.text, tags: note.tags });
+    return this.http.put<Note>(`${this.notesUrl}/${note.id}`, { text: note.text, tags: note.tags });
   }
 
   deleteNoteById(id: number): Observable<Note[]> {
-    return this.http.delete<Note[]>(`http://localhost:3000/notes/${id}`);
+    return this.http.delete<Note[]>(`${this.notesUrl}/${id}`);
   }
 
   addNote(text: string, tags: string[]): Observable<Note> {
-    return this.http.post<Note>('http://localhost:3000/notes', { text: text, tags: tags });
+    return this.http.post<Note>(this.notesUrl, { text: text, tags: tags });
   }
 
   constructor(private http: HttpClient) {
