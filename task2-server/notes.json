@@ -1,8 +1,9 @@
 [
   {
     "id": 1,
-    "text": "Hi, updated #note",
+    "text": "Hi, one #more time updated #note",
     "tags": [
+      "#more",
       "#note"
     ]
   },
@@ -10,7 +11,8 @@
     "id": 2,
     "text": "Hi, #second #note",
     "tags": [
-      "#second","#note"
+      "#second",
+      "#note"
     ]
   }
 ]

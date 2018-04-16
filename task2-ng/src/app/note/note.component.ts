@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Note } from '../notes-model/Note';
-import { not } from '@angular/compiler/src/output/output_ast';
+import { NotesService } from '../notes.service';
 
 @Component({
   selector: 'app-note',
@@ -25,21 +25,27 @@ export class NoteComponent implements OnInit {
   highligthTags(){
     let startIndex = 0;
     this.noteHtmlText = this.note.text+' ';
+    this.note.tags = [];
     while(1){
       let start = this.noteHtmlText.indexOf('#', startIndex);
       if(start === -1){
         return;
       }
       let end = this.noteHtmlText.indexOf(' ',start) === -1? this.noteHtmlText.length: this.noteHtmlText.indexOf(' ',start);
-      let subs = this.noteHtmlText.substring(start,end)+' ';
-      console.log(subs);
-      this.noteHtmlText = this.noteHtmlText.replace(subs,`<span class="highlited" style="color: red">${subs.replace(' ','')}</span> `);
+      let tag = this.noteHtmlText.substring(start,end);
+      this.note.tags.push(tag);
+      tag+=' ';
+      console.log(tag);
+      this.noteHtmlText = this.noteHtmlText.replace(tag,`<span class="highlited" style="color: red">${tag.replace(' ','')}</span> `);
       startIndex = this.noteHtmlText.lastIndexOf('</span>');
     }
   }
 
   save(){
     this.isEditing = !this.isEditing;
+    this.notesService.updateNote(this.note).subscribe(()=>{
+      console.log('updated');
+    })
   }
 
   cancel(){
@@ -47,7 +53,7 @@ export class NoteComponent implements OnInit {
     this.isEditing = !this.isEditing;
   }
 
-  constructor() { }
+  constructor(private notesService: NotesService ) { }
 
   ngOnInit() {
   }
